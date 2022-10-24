@@ -43,6 +43,7 @@
 0.0.0.0 www.googleadservices.com
 0.0.0.0 www.googletagservices.com
 0.0.0.0 api.splkmobile.com
+0.0.0.0 be0c986b.api.splkmobile.com
 0.0.0.0 pangolin16.sgsnssdk.com
 0.0.0.0 allot01.smnvc.com
 0.0.0.0 allot02.smnvc.com
@@ -73,3 +74,5 @@
 0.0.0.0 grs.dbankcloud.com
 0.0.0.0 adx-dra.op.dbankcloud.com
 0.0.0.0 sdkserver-dra.op.dbankcloud.com
+(\.|^)cloudfront.net$
+(\.|^)api\.splkmobile\.com$
