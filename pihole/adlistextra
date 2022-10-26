@@ -72,8 +72,9 @@
 0.0.0.0 grs.dbankcloud.cn
 0.0.0.0 grs.dbankcloud.com
 0.0.0.0 events-dra.op.dbankcloud.com
+0.0.0.0 events-dre.op.dbankcloud.com
 0.0.0.0 adx-dra.op.dbankcloud.com
+0.0.0.0 adx-dre.op.dbankcloud.com
 0.0.0.0 sdkserver-dra.op.dbankcloud.com
-
+0.0.0.0 sdkserver-dre.op.dbankcloud.com
 0.0.0.0 d2qsshdd4bm3fd.cloudfront.net
-0.0.0.0 
