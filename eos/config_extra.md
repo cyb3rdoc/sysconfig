@@ -22,7 +22,9 @@
 `grub-mkconfig -o /boot/grub/grub.cfg`
 
 
-### UPDATE DEFAULT PS1 FOR BASH (30 – Black, 31 – Red, 32 – Green, 33 – Brown, 34 – Blue, 35 – Purple, 36 – Cyan, 37 – Light gray)
+### UPDATE DEFAULT PS1 FOR BASH
+(30 – Black, 31 – Red, 32 – Green, 33 – Brown, 34 – Blue, 35 – Purple, 36 – Cyan, 37 – Light gray)
+
 `PS1=[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]]\$`
 
 
