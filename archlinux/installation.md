@@ -59,7 +59,9 @@ pacman -S grub os-prober ntfs-3g
 grub-install --target=i386-pc /dev/sda
 ```
 
-Enable os-prober to detect Windows for dual-boot: Edit file /etc/default/grub and uncomment the line GRUB_DISABLE_OS_PROBER=false
+Enable os-prober to detect Windows for dual-boot:
+
+Edit file /etc/default/grub and uncomment the line GRUB_DISABLE_OS_PROBER=false
 
 Generate grub-config: `grub-mkconfig -o /boot/grub/grub.cfg`
 
@@ -87,20 +89,17 @@ Allow `wheel` group to use `sudo`: `EDITOR=nano visudo` and uncomment the line `
 #### Install Desktop Environment:
 
 Install video driver:
-
-For nVidia video cards: `pacman -S nvidia` (proprietary drivers/newer cards) OR `pacman -S xf86-video-nouveau` (opensource drivers/older cards)
-
-For AMD video cards: `pacman -S xf86-video-amdgpu`
-
-For ATI video cards: `pacman -S xf86-video-ati`
-
-For Intel video cards: `pacman -S xf86-video-intel`
+```
+# For nVidia (newer) video cards - proprietary: pacman -S nvidia
+# For nVidia (older) video cards - opensource: pacman -S xf86-video-nouveau
+# For AMD video cards: pacman -S xf86-video-amdgpu
+# For ATI video cards: pacman -S xf86-video-ati
+# For Intel video cards: pacman -S xf86-video-intel
+```
 
 Install video server: `pacman -S xorg xorg-server`
 
 Install KDE Plasma desktop environment & basic apps: `pacman -S plasma networkmanager pipewire konsole dolphin firefox`
-
-Install (optional) apps: `pacman -S firewalld gwenview okular kate kcalc kdeconnect cups hplip-lite skanpage spectacle nano-syntax-highlighting neofetch`
 
 Enable Networking: `systemctl enable NetworkManager.service`
 
@@ -110,4 +109,6 @@ Go back to live ISO prompt: `exit`
 
 Shutdown System: `shutdown now`
 
-Remove Live ISO medium and start the system. Customize system, install other packages as per your requirement. Enjoy!
+Remove Live ISO medium and start the system. ENJOY!
+
+Install (optional) apps: `pacman -S firewalld gwenview okular kate kcalc kdeconnect cups hplip-lite skanpage spectacle nano-syntax-highlighting neofetch`
