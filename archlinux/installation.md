@@ -50,8 +50,8 @@ Set localtime: `ln -s /usr/share/zoneinfo/YourZone/YourSubZone /etc/localtime`
 
 #### Install Linux kernel:
 `pacman -S intel-ucode linux linux-firmware`
-(linux-lts for LTS kernel, amd-ucode for AMD systems)
-(Install headers required for VirtualBox - linux-headers or linux-lts-headers)
+
+(linux-lts for LTS kernel, amd-ucode for AMD systems; Install headers required for VirtualBox - linux-headers or linux-lts-headers)
 
 #### Install bootloader to HDD - /dev/sda:
 ```
@@ -66,7 +66,9 @@ Generate grub-config: `grub-mkconfig -o /boot/grub/grub.cfg`
 #### Final Touch Ups:
 
 root password: `passwd`
+
 Hostname: `echo MyAwesomeComputerName > /etc/hostname`
+
 Hosts file: `nano /etc/hosts` and add following
 ```
 127.0.0.1 localhost
@@ -87,8 +89,11 @@ Allow `wheel` group to use `sudo`: `EDITOR=nano visudo` and uncomment the line `
 Install video driver:
 
 For nVidia video cards: `pacman -S nvidia` (proprietary drivers/newer cards) OR `pacman -S xf86-video-nouveau` (opensource drivers/older cards)
+
 For AMD video cards: `pacman -S xf86-video-amdgpu`
+
 For ATI video cards: `pacman -S xf86-video-ati`
+
 For Intel video cards: `pacman -S xf86-video-intel`
 
 Install video server: `pacman -S xorg xorg-server`
