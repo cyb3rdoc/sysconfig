@@ -84,7 +84,9 @@ Create New User: `useradd -m -G wheel,storage,power YourNewUser`
 
 Create New User Password: `passwd YourNewUser`
 
-Allow `wheel` group to use `sudo`: `EDITOR=nano visudo` and uncomment the line `%wheel ALL=(ALL) ALL`. Save the file with `Ctrl+O` and `Ctrl+X`.
+Allow `wheel` group to use `sudo`:
+
+`EDITOR=nano visudo` and uncomment the line `%wheel ALL=(ALL) ALL`. Save the file with `Ctrl+O` and `Ctrl+X`.
 
 #### Install Desktop Environment:
 
