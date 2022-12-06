@@ -58,9 +58,7 @@ pacman -S grub os-prober ntfs-3g
 grub-install --target=i386-pc /dev/sda
 ```
 
-Enable os-prober to detect Windows for dual-boot:
-
-Edit file /etc/default/grub and uncomment the line GRUB_DISABLE_OS_PROBER=false
+Enable os-prober for dual-boot: Edit file /etc/default/grub and uncomment the line GRUB_DISABLE_OS_PROBER=false
 
 Generate grub-config: `grub-mkconfig -o /boot/grub/grub.cfg`
 
