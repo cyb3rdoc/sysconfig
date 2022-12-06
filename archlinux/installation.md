@@ -64,7 +64,7 @@ Generate grub-config: `grub-mkconfig -o /boot/grub/grub.cfg`
 
 #### Final Touch Ups:
 
-root password: `passwd`
+Set root password: `passwd`
 
 Hostname: `echo MyAwesomeComputerName > /etc/hostname`
 
@@ -79,7 +79,7 @@ Install sudo: `pacman -S sudo`
 
 Create New User: `useradd -m -G wheel,storage,power YourNewUser`
 
-Create New User Password: `passwd YourNewUser`
+Set New User Password: `passwd YourNewUser`
 
 Allow `wheel` group to use `sudo`:
 
