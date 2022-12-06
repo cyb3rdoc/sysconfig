@@ -114,3 +114,5 @@ Shutdown System: `shutdown now`
 Remove Live ISO medium and start the system. ENJOY!
 
 Install (optional) apps: `pacman -S firewalld gwenview okular kate kcalc kdeconnect cups hplip-lite skanpage spectacle nano-syntax-highlighting neofetch`
+
+Enable syntax highlighting for nano: `echo "include /usr/share/nano-syntax-highlighting/*.nanorc" > ~/.nanorc`
