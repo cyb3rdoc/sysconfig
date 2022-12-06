@@ -43,9 +43,11 @@ Uncomment the language of your choice and save the file using `Ctrl+O` then clos
 
 Generate system locale: `locale-gen`
 
+Create locale configuration file (As per language selection): `echo "LANG=en_US.UTF-8" > /etc/locale.conf`
+
 Select timezone: `tzselect`
 
-Set localtime: `ln -s /usr/share/zoneinfo/YourZone/YourSubZone /etc/localtime`
+Set localtime: `ln -s /usr/share/zoneinfo/Region/City /etc/localtime`
 
 #### Install Linux kernel:
 `pacman -S intel-ucode linux linux-firmware`
@@ -66,13 +68,13 @@ Generate grub-config: `grub-mkconfig -o /boot/grub/grub.cfg`
 
 Set root password: `passwd`
 
-Hostname: `echo MyAwesomeComputerName > /etc/hostname`
+Hostname: `echo MyComputerName > /etc/hostname`
 
 Hosts file: `nano /etc/hosts` and add following
 ```
 127.0.0.1 localhost
 ::1       localhost
-127.0.0.1 MyAwesomeComputerName
+127.0.0.1 MyComputerName
 ```
 
 Install sudo: `pacman -S sudo`
