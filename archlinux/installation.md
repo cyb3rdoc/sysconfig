@@ -29,8 +29,7 @@ swapon /dev/sda3
 mount /dev/sda2 /mnt
 ```
 
-#### Install Arch base packages:
-`pacstrap -i /mnt base nano`
+#### Install Arch base packages: `pacstrap -i /mnt base nano`
 
 Mount (optional) home partition: `mount /dev/sda4 /mnt/home`
 
