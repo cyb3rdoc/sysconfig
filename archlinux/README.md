@@ -100,7 +100,7 @@ Install video driver:
 
 Install video server: `pacman -S xorg xorg-server`
 
-Install KDE Plasma desktop environment & basic apps: `pacman -S plasma networkmanager pipewire konsole dolphin firefox`
+Install KDE Plasma desktop environment & basic apps: `pacman -S plasma networkmanager pipewire konsole dolphin firefox wget`
 
 Enable Networking: `systemctl enable NetworkManager.service`
 
@@ -110,8 +110,8 @@ Go back to live ISO prompt: `exit`
 
 Shutdown System: `shutdown now`
 
-Remove Live ISO medium and start the system. ENJOY!
+Remove Live ISO medium and start the system. You will be greeted with grub menu followed by Arch login screen!
 
-Install (optional) apps: `pacman -S firewalld gwenview okular kate kcalc kdeconnect cups hplip-lite skanpage spectacle nano-syntax-highlighting neofetch`
+Install (optional) apps: `pacman -S firewalld gwenview okular kate kcalc kdeconnect cups hplip-lite skanpage spectacle nano-syntax-highlighting neofetch onlyoffice-bin aspell aspell-en`
 
 Enable syntax highlighting for nano: `echo "include /usr/share/nano-syntax-highlighting/*.nanorc" > ~/.nanorc`
