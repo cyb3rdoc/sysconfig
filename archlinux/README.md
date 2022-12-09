@@ -112,6 +112,6 @@ Shutdown System: `shutdown now`
 
 Remove Live ISO medium and start the system. You will be greeted with grub menu followed by Arch login screen!
 
-Install (optional) apps: `pacman -S firewalld gwenview okular kate kcalc kdeconnect cups hplip-lite skanpage spectacle nano-syntax-highlighting neofetch onlyoffice-bin aspell aspell-en`
+Optional apps: `pacman -S firewalld gwenview okular kate kcalc kdeconnect cups hplip-lite skanpage spectacle nano-syntax-highlighting neofetch onlyoffice-bin aspell aspell-en dolphin-plugins ark p7zip unarchiver digikam kipi-plugins hugin powertop usb_modeswitch yakuake`
 
 Enable syntax highlighting for nano: `echo "include /usr/share/nano-syntax-highlighting/*.nanorc" > ~/.nanorc`
