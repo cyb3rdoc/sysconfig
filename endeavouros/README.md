@@ -25,7 +25,7 @@
 ### UPDATE DEFAULT PROMPT TO COLORED FOR BASH
 **Typeface:** 0 - Normal, 1 - Bold (Bright), 2 - Dim, 4 - Underlined
 
-**Color:** 30 – Black, 31 – Red, 32 – Green, 33 – Yellow, 34 – Blue, 35 – Magenta, 36 – Cyan, 37 – Light gray (More details [here](https://misc.flogisoft.com/bash/tip_colors_and_formatting))
+**Color:** 30 – Black, 31 – Red, 32 – Green, 33 – Yellow, 34 – Blue, 35 – Magenta, 36 – Cyan, 37 – Light gray (More details [here](https://misc.flogisoft.com/bash/tip_colors_and_formatting) and [here](https://www.howtogeek.com/307701/how-to-customize-and-colorize-your-bash-prompt/))
 
 **One-line Prompt:**
 
