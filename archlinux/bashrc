@@ -48,7 +48,7 @@ fi
 
 # Use aliases file
 if [ -e $HOME/.aliases ]; then
-    source $HOME/.aliases
+    . $HOME/.aliases
 fi
 
 # enable programmable completion features (you don't need to enable
