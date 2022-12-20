@@ -115,3 +115,23 @@ Remove Live ISO medium and start the system. You will be greeted with grub menu 
 Optional apps: `pacman -S firewalld gwenview okular kate kcalc kdeconnect cups hplip-lite skanlite spectacle nano-syntax-highlighting neofetch onlyoffice-bin aspell aspell-en dolphin-plugins ark p7zip unarchiver powertop usb_modeswitch yakuake`
 
 Enable syntax highlighting for nano: `echo "include /usr/share/nano-syntax-highlighting/*.nanorc" > ~/.nanorc`
+
+### Install NVIDIA Legacy Drivers through `kernel-lts` unofficial repo:
+
+Import Key ID:
+```
+sudo pacman-key --keyserver hkps://keyserver.ubuntu.com --recv-key 76C6E477042BFE985CC220BD9C08A255442FAFF0
+sudo pacman-key --lsign 76C6E477042BFE985CC220BD9C08A255442FAFF0
+```
+
+Add following to `/etc/pacman.conf`
+```
+[kernel-lts]
+Server = https://repo.m2x.dev/current/$repo/$arch
+```
+
+Install NVIDIA drivers:
+
+`pacman -S nvidia-390xx-dkms nvidia-390xx-utils nvidia-390xx-settings`
+
+Re-generate grub-config: `grub-mkconfig -o /boot/grub/grub.cfg`
