@@ -130,8 +130,6 @@ Add following to `/etc/pacman.conf`
 Server = https://repo.m2x.dev/current/$repo/$arch
 ```
 
-Install NVIDIA drivers:
-
-`pacman -S nvidia-390xx-dkms nvidia-390xx-utils nvidia-390xx-settings`
+Install NVIDIA drivers: `pacman -S nvidia-390xx-dkms nvidia-390xx-utils nvidia-390xx-settings`
 
 Re-generate grub-config: `grub-mkconfig -o /boot/grub/grub.cfg`
