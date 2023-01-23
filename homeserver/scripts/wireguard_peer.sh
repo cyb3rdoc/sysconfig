@@ -50,12 +50,12 @@ echo -e "\nBacking up current server configuration..."
 sudo cp $SERVERDIR/wg0.conf $SERVERDIR/wg0.conf.bak
 
 # Update server configuration
-sudo echo "\
+echo "\
 
 [Peer]
 AllowedIPs = $peerip/32
 PublicKey = $(cat $PEERDIR/$peer.pub)
-PresharedKey = $(cat $PEERDIR/$peer.psk)" >> $SERVERDIR/wg0.conf
+PresharedKey = $(cat $PEERDIR/$peer.psk)" | sudo tee -a $SERVERDIR/wg0.conf > /dev/null
 
 echo -e "\nWireguard profile for $peer generated."
 echo -e "\nRestarting wireguard server..."
@@ -66,6 +66,7 @@ echo ""
 if ! [ -x "$(command -v qrencode)" ]; then
     echo "qrencode is not installed. QR code generation skipped." >&2
     exit
+fi
 
 read -p "Do you want to generate peer configuration QR code? (y/n): " yn
 case $yn in
