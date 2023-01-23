@@ -40,14 +40,21 @@ PrivateKey = $(sudo cat $SERVERDIR/server.key)" > $SERVERDIR/wg0.conf
 # Change your network interface from eth0 to appropriate as per network setup
 read -p "Do you want to use Wireguard as VPN to access internet? (y/n): " yn
 case $yn in
-    [yY]*)      echo "Updating iptables rules..." ;
-                echo "PostUp = iptables -I FORWARD 1 -i wg0 -j ACCEPT; iptables -t nat -I POSTROUTING 1 -o eth0 -j MASQUERADE" >> $SERVERDIR/wg0.conf ;
-                echo "PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE" >> $SERVERDIR/wg0.conf ;
-                sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf ;
-                sysctl -p ;
+    [yY]*)      read -p "Enter Interface Name with Internet Access e.g. eth0, wlan0: " vpnif
+                if [ -z $vpnif ]; then
+                    echo -e "\nInterface name unavailable. Internet access via wireguard cancelled."
+                else
+                    echo "Updating iptables rules..."
+                    echo "PostUp = iptables -I FORWARD 1 -i wg0 -j ACCEPT; iptables -t nat -I POSTROUTING 1 -o $vpnif -j MASQUERADE" >> $SERVERDIR/wg0.conf
+                    echo "PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o $vpnif -j MASQUERADE" >> $SERVERDIR/wg0.conf
+                    sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
+                    sysctl -p
+                fi
                 ;;
-    [nN]*)      echo "Internet access via wireguard cancelled." ;;
-    *)          echo "Invalid response. Internet access via wireguard cancelled." ;;
+    [nN]*)      echo "Internet access via wireguard cancelled."
+                ;;
+    *)          echo "Invalid response. Internet access via wireguard cancelled."
+                ;;
 esac
 
 # Start wireguard server
