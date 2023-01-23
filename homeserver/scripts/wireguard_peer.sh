@@ -71,12 +71,11 @@ fi
 read -p "Do you want to generate peer configuration QR code? (y/n): " yn
 case $yn in
     [yY]* ) qrencode -t ansiutf8 -r "$PEERDIR/$peer.conf"
-        exit
         ;;
     [nN]* ) echo "QR code generation cancelled...Exiting."
-        exit
         ;;
     * ) echo "Invalid response...Exiting."
-        exit
         ;;
 esac
+
+echo -e "/nWireguard Peer Profile Generation Completed."
