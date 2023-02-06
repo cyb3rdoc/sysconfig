@@ -11,7 +11,8 @@ Paritions can be created using GParted Live ISO.
 
 ### ARCH INSTALLATION - BOOT FROM ARCH ISO OR LIVE USB
 
-Connect to WiFi using `wifi-menu` command and confirm connectivity with `ping -c5 www.google.com`.
+Connect to WiFi using `iwctl` command (iwctl > device list > station DEVICE scan > station DEVICE get-networks > station DEVICE connect SSID).
+Confirm connectivity with `ping -c5 www.google.com`.
 
 Check parition details with `fdisk -l` and make a note of paritions.
 
@@ -29,7 +30,7 @@ swapon /dev/sda3
 mount /dev/sda2 /mnt
 ```
 
-#### Install Arch base packages: `pacstrap -i /mnt base nano`
+#### Install Arch base packages: `pacstrap -i /mnt base base-devel nano`
 
 Mount (optional) home partition: `mount /dev/sda4 /mnt/home`
 
