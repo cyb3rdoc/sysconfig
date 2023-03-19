@@ -1,0 +1,188 @@
+version: "3.9"
+
+networks:
+  default:
+    driver: bridge
+  dockernet:
+    name: dockernet
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24
+
+# Common environment values
+x-environment: &default-tz-puid-pgid
+  TZ: $TZ
+  PUID: $PUID
+  PGID: $PGID
+
+# Keys common to some of the core services
+x-common-keys-core: &common-keys-core
+  networks:
+    - dockernet
+  security_opt:
+    - no-new-privileges:true
+  restart: always
+  # profiles:
+  # - core
+
+# Keys common to some of the monitoring services
+x-common-keys-monitoring: &common-keys-monitoring
+  networks:
+    - dockernet
+  security_opt:
+    - no-new-privileges:true
+  restart: always
+  # profiles:
+  # - monitoring
+
+# Keys common to some of the dependent services/apps
+x-common-keys-apps: &common-keys-apps
+  networks:
+    - dockernet
+  security_opt:
+    - no-new-privileges:true
+  restart: unless-stopped
+  # profiles:
+  # - apps
+
+# Keys common to some of the media services
+x-common-keys-media: &common-keys-media
+  networks:
+    - dockernet
+  security_opt:
+    - no-new-privileges:true
+  restart: "no"
+  # profiles:
+  # - media
+
+services:
+
+  adguardhome:
+    <<: *common-keys-core
+    container_name: adguardhome
+    hostname: adguardhome
+    image: adguard/adguardhome
+    ports:
+      - "$ADGUARD_DNS:53/tcp"
+      - "$ADGUARD_DNS:53/udp"
+      #- "$ADGUARD_UI_HTTP:80"
+      #- "$ADGUARD_CONFIG:3000"
+    volumes:
+      - $DOCKERDIR/appdata/adguardhome/work:/opt/adguardhome/work
+      - $DOCKERDIR/appdata/adguardhome/conf:/opt/adguardhome/conf
+    environment:
+      <<: *default-tz-puid-pgid
+
+  nginxproxy:
+    <<: *common-keys-core
+    container_name: nginxproxy
+    hostname: nginxproxy
+    image: nginx:latest
+    ports:
+      - "$NGINX_HTTP:80"
+      - "$NGINX_HTTPS:443"
+    volumes:
+      - $DOCKERDIR/appdata/nginxproxy/config:/etc/nginx
+      - $DOCKERDIR/appdata/nginxproxy/certs:/etc/ssl/private
+    environment:
+      <<: *default-tz-puid-pgid
+
+  portagent:
+    <<: *common-keys-core
+    container_name: portagent
+    hostname: portagent
+    image: portainer/agent
+    #ports:
+      #- "$PORTAGENT_HTTP:9001"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+    environment:
+      <<: *default-tz-puid-pgid
+
+  homepage:
+    <<: *common-keys-core
+    container_name: homepage
+    hostname: homepage
+    image: ghcr.io/benphelps/homepage:latest
+    #ports:
+      #- "$HOMEPAGE_HTTP:3000"
+    volumes:
+      - $DOCKERDIR/appdata/homepage/config:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      <<: *default-tz-puid-pgid
+
+  filebrowser:
+    <<: *common-keys-core
+    container_name: filebrowser
+    hostname: filebrowser
+    image: filebrowser/filebrowser:latest
+    #ports:
+      #- "$FILEBROWSER_HTTP:80"
+    volumes:
+      - $EXTDRV/files:/srv
+      - $DOCKERDIR/appdata/filebrowser/filebrowser.db:/database.db
+      - $DOCKERDIR/appdata/filebrowser/.filebrowser.json:/.filebrowser.json
+    environment:
+      <<: *default-tz-puid-pgid
+
+  deluge:
+    <<: *common-keys-apps
+    container_name: deluge
+    hostname: deluge
+    image: linuxserver/deluge
+    #ports:
+      #- "$DELUGE_HTTP:8112"
+      #- "$DELUGE_DHT:55555"
+    volumes:
+      - $DOCKERDIR/appdata/deluge/config:/config
+      - $EXTDRV/downloads:/downloads
+    cap_add:
+      - NET_ADMIN
+    environment:
+      <<: *default-tz-puid-pgid
+      DELUGE_LOGLEVEL: error
+
+  eznvr:
+    <<: *common-keys-core
+    container_name: eznvr
+    hostname: eznvr
+    image: cyb3rdoc/eznvr:latest
+    volumes:
+      - $DOCKERDIR/appdata/eznvr/config:/config
+      - $EXTDRV/eznvr:/storage
+    environment:
+      <<: *default-tz-puid-pgid
+
+  jellyfin:
+    <<: *common-keys-media
+    container_name: jellyfin
+    hostname: jellyfin
+    image: linuxserver/jellyfin
+    #ports:
+      #- 8096:8096
+      #- 8920:8920
+    volumes:
+      - $DOCKERDIR/appdata/jellyfin/config:/config:rw
+      - $DOCKERDIR/appdata/jellyfin/cache:/cache:rw
+      - $EXTDRV/media:/media
+    devices:
+      - /dev/dri:/dev/dri
+    environment:
+      <<: *default-tz-puid-pgid
+
+  vaultwarden:
+    <<: *common-keys-apps
+    container_name: vaultwarden
+    hostname: vaultwarden
+    image: vaultwarden/server:latest
+    #ports:
+      #- 8888:80
+    volumes:
+      - $DOCKERDIR/appdata/vaultwarden:/data
+    environment:
+      <<: *default-tz-puid-pgid
+      WEBSOCKET_ENABLED: true
+      SIGNUPS_ALLOWED: false
