@@ -8,7 +8,7 @@
 ### SERVICES:
 
 1. Homepage
-2. PiHole DNS & Ad-Blocking
+2. Adguard Home (DNS & Adblocking)
 3. Nginx Reverse Proxy
 4. Deluge
 5. Portainer/Portainer Agent
@@ -19,3 +19,5 @@
 10. MeTube Media Downloader
 11. Nextcloud
 12. MotionEye NVR
+13. EZ-NVR
+14. File Browser
