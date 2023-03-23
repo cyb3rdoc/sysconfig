@@ -1,5 +1,11 @@
 #!/bin/bash
 
+######################################################################
+# Title   : Wireguard Peer Profile Generation Script
+# By      : cyb3rdoc
+# License : MIT
+######################################################################
+
 # Collect peer name and its wireguard IP from user
 read -p "\nEnter Name for the Peer: " PEER
 [[ -z ${PEER} ]] && echo -e "\nPeer Name Unavailable...Exiting." && exit
@@ -78,14 +84,14 @@ AllowedIPs = ${PEERIP}/32
 PublicKey = $(cat ${PEERDIR}/${PEER}.pub)
 PresharedKey = $(cat ${PEERDIR}/${PEER}.psk)" | sudo tee -a ${SERVERDIR}/wg0.conf > /dev/null
 
-echo -e "\nWireguard profile for $peer generated."
+echo -e "\nWireguard profile for ${PEER} generated."
 echo -e "\nRestarting wireguard server..."
 sudo wg-quick up wg0
 
 # Generate QR code of peer.conf file
 if ! [[ -x "$(command -v qrencode)" ]]; then
-    echo "\nqrencode is not installed. QR code generation skipped." >&2
-    echo "\nWireguard Peer Profile Generation Completed."
+    echo -e "\nqrencode is not installed. QR code generation skipped." >&2
+    echo -e "\nWireguard Peer Profile Generation Completed."
     exit
 fi
 

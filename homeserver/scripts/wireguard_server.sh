@@ -1,5 +1,11 @@
 #!/bin/bash
 
+######################################################################
+# Title   : Wireguard Server Setup Script
+# By      : cyb3rdoc
+# License : MIT
+######################################################################
+
 # Check for root privileges
 if [[ "$EUID" = 0 ]]; then
     echo "Root privileges available"
