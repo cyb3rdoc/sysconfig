@@ -1,8 +1,8 @@
 ## ADDITIONAL CONFIGURATION FOR ENDEAVOUR OS
 
 ### POSSIBLY MISSING FIRMWARE ERROR
-#### Intall missing firmwares qla1280, qla2xxx, qed, bfa, aic94xx, wd719x, xhci_pci
-`pacman -Syuq --noconfirm --noprogressbar --needed linux-firmware-qlogic aic94xx-firmware wd719x-firmware upd72020x-fw`
+#### Intall missing firmwares qla1280, qla2xxx, qed, bfa, ast, aic94xx, wd719x, xhci_pci
+`pacman -Syuq --noconfirm --noprogressbar --needed linux-firmware-qlogic ast-firmware aic94xx-firmware wd719x-firmware upd72020x-fw`
 
 
 ### NVIDIA LEGACY DRIVER INSTALLATION
