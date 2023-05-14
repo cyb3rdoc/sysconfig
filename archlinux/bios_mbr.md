@@ -1,9 +1,9 @@
-## INSTALL ARCH LINUX - DUAL BOOT WITH WINDOWS & UEFI/GPT
+## INSTALL ARCH LINUX - DUAL BOOT WITH WINDOWS & BIOS/MBR
 
 ### PRE-REQUISITES
 
 1. Already installed Windows
-2. Separate partition for Arch Linux
+2. Separate partition for Arch Linux install
 3. Separate partition for swap, Equal to RAM or more
 4. Optional separate partition for home
 
@@ -14,33 +14,25 @@ Paritions can be created in advance using GParted Live ISO or using `cfdisk` dur
 Connect to WiFi using `iwctl` command (iwctl > device list > station DEVICE scan > station DEVICE get-networks > station DEVICE connect SSID).
 Confirm connectivity with `ping -c5 www.google.com`.
 
-#### Update the system clock
-
-`timedatectl set-ntp true`
-
-#### Check partition details
-
 Check parition details with `fdisk -l` and make a note of paritions.
 
 We will use below examples:
-
-1. EFI - /dev/sda1
-2. Windows - /dev/sda2
-3. Root - /dev/sda3 (ext4 - `mkfs.ext4 /dev/sda3`)
-4. swap - /dev/sda4
-5. home - /dev/sda5 (Optional: ext4 - `mkfs.ext4 /dev/sda5`)
+1. Windows - /dev/sda1
+2. Root - /dev/sda2
+3. swap - /dev/sda3
+4. home - /dev/sda4
 
 #### Mount partitions:
 
 ```
-mount /dev/sda3 /mnt
-mkswap /dev/sda4
-swapon /dev/sda4
+mkswap /dev/sda3
+swapon /dev/sda3
+mount /dev/sda2 /mnt
 ```
 
 #### Install Arch base packages: `pacstrap -i /mnt base nano`
 
-Mount (optional) home partition: `mount /dev/sda5 /mnt/home`
+Mount (optional) home partition: `mount /dev/sda4 /mnt/home`
 
 Generate fstab to mount partitions on reboot: `genfstab -U /mnt >> /mnt/etc/fstab`
 
@@ -48,7 +40,7 @@ Chroot to newly installed Arch for further setup: `arch-chroot /mnt`
 
 Set system locale: `nano /etc/locale.gen`
 
-Uncomment the language of your choice (e.g. en_US.UTF-8) and save the file using `Ctrl+O` then close with `Ctrl+X`.
+Uncomment the language of your choice and save the file using `Ctrl+O` then close with `Ctrl+X`.
 
 Generate system locale: `locale-gen`
 
@@ -64,20 +56,12 @@ Set localtime: `ln -sf /usr/share/zoneinfo/Region/City /etc/localtime`
 
 (linux for latest Linux kernel, amd-ucode for AMD systems; Install headers required for VirtualBox - linux-headers or linux-lts-headers)
 
-#### Install bootloader and other required tools:
-
-`pacman -S grub efibootmgr dosfstools os-prober mtools ntfs-3g`
-
-#### Create EFI directory and mount EFI partition created during Windows installtion:
+#### Install bootloader to HDD - /dev/sda:
 
 ```
-mkdir /boot/EFI
-mount /dev/sda1 /boot/EFI
+pacman -S grub os-prober ntfs-3g
+grub-install --target=i386-pc /dev/sda
 ```
-
-#### Install and configure grub
-
-`grub-install –-target=x86_64-efi --bootloader-id=grub_uefi –-recheck`
 
 Enable os-prober for dual-boot: Edit file /etc/default/grub and uncomment the line GRUB_DISABLE_OS_PROBER=false
 
@@ -94,7 +78,7 @@ Hosts file: `nano /etc/hosts` and add following
 ```
 127.0.0.1 localhost
 ::1       localhost
-127.0.1.1 MyComputerName
+127.0.0.1 MyComputerName
 ```
 
 Install sudo: `pacman -S sudo`
@@ -110,7 +94,6 @@ Allow `wheel` group to use `sudo`:
 #### Install Desktop Environment:
 
 Install video driver:
-
 ```
 # For nVidia (newer) video cards - proprietary: pacman -S nvidia
 # For nVidia (older) video cards - opensource: pacman -S xf86-video-nouveau
