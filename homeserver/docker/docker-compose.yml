@@ -4,8 +4,6 @@
 # License : MIT
 ######################################################################
 
-version: "3.9"
-
 networks:
   default:
     driver: bridge
@@ -107,6 +105,19 @@ services:
     environment:
       <<: *default-tz-puid-pgid
 
+  dockerproxy:
+    <<: *common-keys-core
+    image: ghcr.io/tecnativa/docker-socket-proxy:latest
+    container_name: dockerproxy
+    #ports:
+        #- 127.0.0.1:2375:2375
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+        - CONTAINERS=1
+        - POST=0
+        - TZ=$TZ
+
   homepage:
     <<: *common-keys-core
     container_name: homepage
@@ -116,7 +127,6 @@ services:
       #- "$HOMEPAGE_HTTP:3000"
     volumes:
       - $DOCKERDIR/appdata/homepage/config:/app/config
-      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       <<: *default-tz-puid-pgid
 
@@ -151,14 +161,14 @@ services:
       <<: *default-tz-puid-pgid
       DELUGE_LOGLEVEL: error
 
-  eznvr:
+  onenvr:
     <<: *common-keys-core
-    container_name: eznvr
-    hostname: eznvr
-    image: cyb3rdoc/eznvr:latest
+    container_name: onenvr
+    hostname: onenvr
+    image: cyb3rdoc/onenvr:latest
     volumes:
-      - $DOCKERDIR/appdata/eznvr/config:/config
-      - $EXTDRV/eznvr:/storage
+      - $DOCKERDIR/appdata/onenvr/config:/config
+      - $EXTDRV/onenvr:/storage
     environment:
       <<: *default-tz-puid-pgid
 
@@ -166,10 +176,10 @@ services:
     <<: *common-keys-media
     container_name: jellyfin
     hostname: jellyfin
-    image: linuxserver/jellyfin
+    image: jellyfin/jellyfin
     #ports:
-      #- 8096:8096
-      #- 8920:8920
+      #- "$JELLYFIN_HTTP:8096"
+      #- "$JELLYFIN_HTTPS:8920"
     volumes:
       - $DOCKERDIR/appdata/jellyfin/config:/config:rw
       - $DOCKERDIR/appdata/jellyfin/cache:/cache:rw
