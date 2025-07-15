@@ -18,7 +18,7 @@ mkdir -p -m 700 ~/.gnupg
 gpg --no-default-keyring --keyring gnupg-ring:/tmp/zerotier.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 1657198823E52A61
 chmod 644 /tmp/zerotier.gpg
 sudo chown root:root /tmp/zerotier.gpg
-sudo mv /tmp/onlyoffice.gpg /usr/share/keyrings/zerotier.gpg
+sudo mv /tmp/zerotier.gpg /usr/share/keyrings/zerotier.gpg
 ```
 
 ### Update Zerotier sources file
