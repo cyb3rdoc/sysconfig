@@ -17,12 +17,14 @@
 CONFIG_FILE="/etc/dhcpcd.conf"
 PREFIX_FILE="/etc/ipv6prefix"
 INTERFACE="eth0"
-STATIC_SUFFIX="::1001"  # Define the static suffix for eth0
+STATIC_SUFFIX="::1001"  # Define the static suffix for interface
 
 echo "Checking IPv6 prefix for $INTERFACE..."
 
 # Get the current IPv6 global prefix (excluding static and deprecated addresses)
-NEW_PREFIX=$(ip -6 addr show "$INTERFACE" | grep "global" | grep "dynamic" | grep -v "deprecated" | awk '{print $2}' | cut -d'/' -f1 | cut -d':' -f1-4 | head -n1)
+NEW_PREFIX=$(ip -6 addr show "$INTERFACE" \
+    | grep "global" | grep "dynamic" | grep -v "deprecated" \
+    | awk '{print $2}' | cut -d'/' -f1 | cut -d':' -f1-4 | head -n1)
 
 # Check if an IPv6 prefix was found
 if [[ -z "$NEW_PREFIX" ]]; then
@@ -44,12 +46,21 @@ NEW_IPV6="$NEW_PREFIX$STATIC_SUFFIX/64"
 if [[ "$NEW_PREFIX" != "$OLD_PREFIX" ]]; then
     echo "IPv6 prefix changed from $OLD_PREFIX to $NEW_PREFIX"
 
-    # Update dhcpcd.conf for eth0
-    sudo awk -v new_ipv6="$NEW_IPV6" '
+    # Update dhcpcd.conf
+    sudo awk -v iface="$INTERFACE" -v new_ipv6="$NEW_IPV6" '
         BEGIN { inside_iface=0 }
-        /^interface eth0/ { inside_iface=1 }
-        inside_iface && /^static ip6_address=/ {
-            sub(/static ip6_address=.*/, "static ip6_address=" new_ipv6)
+        # Detect an "interface ..." line. Use field comparison to be robust.
+        /^interface/ {
+            # reset inside_iface then set if this line is the interface we care about
+            inside_iface = ($1 == "interface" && $2 == iface)
+            print
+            next
+        }
+        # If we are inside the matching interface stanza, replace static ip6_address lines
+        inside_iface && /^[[:space:]]*static[[:space:]]+ip6_address=/ {
+            sub(/static[[:space:]]+ip6_address=.*/, "static ip6_address=" new_ipv6)
+            print
+            next
         }
         { print }
     ' "$CONFIG_FILE" | sudo tee "$CONFIG_FILE.tmp" > /dev/null && sudo mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
